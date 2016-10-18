@@ -1,11 +1,15 @@
 package javafxpert;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
-  static String gameStatus = "";
+  //static String gameStatus = "";
   static final int X_WIN_SCORE = 10;
   static final int O_WIN_SCORE = -10;
 
   static String evalGameStatus(String moves) {
+    String gameStatus = "";
     // Check if O (second player) won
     String oMoves = "";
     for (int i = 1; i < moves.length(); i += 2) {
@@ -43,39 +47,45 @@ public class Main {
     return gameStatus;
   }
 
-  static void permute(int level, String permuted,
+  static int permute(int level, String permuted,
                       boolean used[], String original) {
-    String tempPrefix = "27689";
+//    String tempPrefix = "27689";
 //    String tempPrefix = "";
 //    String tempPrefix = "123485";
-//    String tempPrefix = "314879";
+    String tempPrefix = "314879";
+
+    List<Integer> scores = new ArrayList<>();
+    List<String> moves = new ArrayList<>();
 
     int xMiniMaxScore = 0;
     int length = original.length();
 
     //evalGameStatus(permuted);
-    evalGameStatus(tempPrefix + permuted);
+    String gs = evalGameStatus(tempPrefix + permuted);
 
-    if (!gameStatus.equalsIgnoreCase("I")) {
+    if (!gs.equalsIgnoreCase("I")) {
       int depth = 0;
-      if (gameStatus.equalsIgnoreCase("X")) {
+      if (gs.equalsIgnoreCase("X")) {
 
-        //depth = (permuted.length() - 1) / 2;
-        depth = (tempPrefix + permuted).length() - tempPrefix.length();
+        //depth = (tempPrefix + permuted).length() - tempPrefix.length();
+        depth = 0;
 
         xMiniMaxScore = X_WIN_SCORE - depth;
+        scores.add(xMiniMaxScore);
+        //String move = (tempPrefix + permuted).substring((tempPrefix + permuted).length() - 1);
+        //moves.add(move);
       }
-      else if (gameStatus.equalsIgnoreCase("O")) {
+      else if (gs.equalsIgnoreCase("O")) {
 
-        //depth = permuted.length() / 2;
-        depth = (tempPrefix + permuted).length() - tempPrefix.length();
+        //depth = (tempPrefix + permuted).length() - tempPrefix.length();
+        depth = 0;
 
         xMiniMaxScore = O_WIN_SCORE + depth;
+        //scores.add(xMiniMaxScore);
       }
       //if (xMiniMaxScore >= 7) {
-        System.out.println(tempPrefix + permuted + " " + gameStatus + " " + xMiniMaxScore);
+      //System.out.println(tempPrefix + permuted + " " + gs + " " + scores);
       //}
-      return;
     }
 
     if (level == length) {
@@ -90,21 +100,27 @@ public class Main {
       for (int i = 0; i < length; i++) {
         if (!used[i]) {
           used[i] = true;
-          permute(level + 1, permuted + original.charAt(i),
+          int score;
+          score = permute(level + 1, permuted + original.charAt(i),
               used, original);
+          scores.add(score);
+          String move = new Character(original.charAt(i)).toString();
+          moves.add(move);
+          System.out.println(tempPrefix + permuted + " " + gs + " " + scores + " " + moves);
           used[i] = false;
         }
       }
     }
+    return xMiniMaxScore;
   }
 
   public static void main(String[] args) {
 //    String s = "123456789";
 //    boolean used[] = {false, false, false, false, false, false, false, false, false};
-//    String s = "256";
-//    boolean used[] = {false, false, false};
-    String s = "1345";
-    boolean used[] = {false, false, false, false};
+    String s = "256";
+    boolean used[] = {false, false, false};
+//    String s = "1345";
+//    boolean used[] = {false, false, false, false};
 //    String s = "679";
 //    boolean used[] = {false, false, false};
 //    String s = "256";
