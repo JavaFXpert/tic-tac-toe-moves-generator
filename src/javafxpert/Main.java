@@ -67,8 +67,8 @@ public class Main {
       int depth = 0;
       if (gs.equalsIgnoreCase("X")) {
 
-        //depth = (tempPrefix + permuted).length() - tempPrefix.length();
-        depth = 0;
+        depth = (tempPrefix + permuted).length() - tempPrefix.length();
+        //depth = 0;
 
         xMiniMaxScore = X_WIN_SCORE - depth;
         scores.add(xMiniMaxScore);
@@ -77,8 +77,8 @@ public class Main {
       }
       else if (gs.equalsIgnoreCase("O")) {
 
-        //depth = (tempPrefix + permuted).length() - tempPrefix.length();
-        depth = 0;
+        depth = (tempPrefix + permuted).length() - tempPrefix.length();
+        //depth = 0;
 
         xMiniMaxScore = O_WIN_SCORE + depth;
         //scores.add(xMiniMaxScore);
